@@ -1,0 +1,38 @@
+mixed-port: 7897
+allow-lan: true
+mode: rule
+log-level: warning
+proxies:
+- name: Vultr-Tokyo-Reality
+  type: vless
+  server: 45.32.22.52
+  port: 443
+  uuid: 8f261431-e3d4-4758-bd74-2c1cd7f0f08d
+  network: tcp
+  tls: true
+  udp: true
+  servername: www.microsoft.com
+  flow: xtls-rprx-vision
+  client-fingerprint: chrome
+  reality-opts:
+    public-key: O9CBBeibUoMq8xFlNpFs_hs4I9MPArQDbajCHLeaMlY
+    short-id: 2fa72f0263d6d47b
+proxy-groups:
+- name: PROXY
+  type: select
+  proxies:
+  - Vultr-Tokyo-Reality
+  - DIRECT
+- name: GLOBAL
+  type: select
+  proxies:
+  - PROXY
+  - Vultr-Tokyo-Reality
+  - DIRECT
+rules:
+- IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+- IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+- IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+- IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+- MATCH,PROXY
